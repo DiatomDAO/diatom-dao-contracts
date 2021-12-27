@@ -1,4 +1,5 @@
 //SPDX-License-Identifier: GPL-3
+
 pragma solidity ^0.8.5;
 
 
@@ -196,10 +197,7 @@ contract WLv3 is OwnableUpgradeable {
   }
 
   modifier migraterToV3() {
-    require(
-      _migratingToV3 || !_migratedToV3,
-      "Contract already migrated to "
-    );
+    require(_migratingToV3 || !_migratedToV3, "Contract already migrated to V3");
 
     bool isTopLevelCall = !_migratingToV3;
     if (isTopLevelCall) {
@@ -214,7 +212,7 @@ contract WLv3 is OwnableUpgradeable {
     }
   }
 
-  function migrateToV3() external onlyOwner {
+  function migrateToV3() external migraterToV3 {
     _paused = false;
   }
 
